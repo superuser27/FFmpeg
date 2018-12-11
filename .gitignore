@@ -36,3 +36,8 @@
 /lcov/
 /src
 /mapfile
+#generated
+ab-suite.git.reset.log
+/build-static-64bit
+ffmpeg-0001-configure-fix-failures-with-long-command-lines.patch
+configure.orig
