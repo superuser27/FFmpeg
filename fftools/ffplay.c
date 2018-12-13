@@ -60,8 +60,10 @@
 
 #include <assert.h>
 
-const char program_name[] = "ffplay";
-const int program_birth_year = 2003;
+const char program_name[] = "FFPLAY MOD BY NECROMANCER";
+const int mod_birth_year = 2018;
+
+int last_half_second = 0;
 
 #define MAX_QUEUE_SIZE (15 * 1024 * 1024)
 #define MIN_FRAMES 25
@@ -1710,22 +1712,20 @@ display:
                 av_diff = get_master_clock(is) - get_clock(&is->vidclk);
             else if (is->audio_st)
                 av_diff = get_master_clock(is) - get_clock(&is->audclk);
-            /*av_log(NULL, AV_LOG_INFO,
-                   "%7.2f %s:%7.3f fd=%4d aq=%5dKB vq=%5dKB sq=%5dB f=%"PRId64"/%"PRId64"   \r",
-                   get_master_clock(is),
-                   (is->audio_st && is->video_st) ? "A-V" : (is->video_st ? "M-V" : (is->audio_st ? "M-A" : "   ")),
-                   av_diff,
-                   is->frame_drops_early + is->frame_drops_late,
-                   aqsize / 1024,
-                   vqsize / 1024,
-                   sqsize,
-                   is->video_st ? is->viddec.avctx->pts_correction_num_faulty_dts : 0,
-                   is->video_st ? is->viddec.avctx->pts_correction_num_faulty_pts : 0);*/
             
-			char str[32];
-			gets( str );
-			
-			printf("%7.2f\n", get_master_clock(is));
+			// io twice per second
+			int curr_dur_half_sec = get_master_clock(is) / 500000LL;
+			if (last_half_second != curr_dur_half_sec) {
+				last_half_second = curr_dur_seconds;
+				
+				// log current play time to stderr
+				av_log(NULL, AV_LOG_INFO, "t:%d\n", curr_dur_seconds/2);
+				
+				// echo for dbg purposes
+				char str[16];
+				gets( str );
+				puts( str );
+			}
 			
             fflush(stdout);
             last_time = cur_time;
