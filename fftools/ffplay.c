@@ -1728,7 +1728,7 @@ display:
 					
 					switch(str[0]) {
 					   case 't'  :
-						  fprintf(stderr, "ths:%d\n", curr_dur_q_sec);
+						  printf("ths:%d\n", curr_dur_q_sec);
 						  break;
 					   case 'e'  :
 						  printf("you wrote: %s", str);
