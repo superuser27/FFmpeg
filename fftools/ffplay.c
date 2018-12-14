@@ -1713,6 +1713,8 @@ display:
             else if (is->audio_st)
                 av_diff = get_master_clock(is) - get_clock(&is->audclk);
             
+			av_log(NULL, AV_LOG_INFO, "dbgTime:%f\n", get_master_clock(is));
+			
 			// io twice per second
 			int curr_dur_half_sec = get_master_clock(is) / 500000LL;
 			if (last_half_second != curr_dur_half_sec) {
