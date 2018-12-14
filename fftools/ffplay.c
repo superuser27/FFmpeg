@@ -63,7 +63,8 @@
 const char program_name[] = "ffplay";
 const int program_birth_year = 2003;
 
-int last_half_second = 0;
+int last_q_second = 0;
+int stdin_is_open = 0;
 
 #define MAX_QUEUE_SIZE (15 * 1024 * 1024)
 #define MIN_FRAMES 25
@@ -1713,22 +1714,33 @@ display:
             else if (is->audio_st)
                 av_diff = get_master_clock(is) - get_clock(&is->audclk);
             
-			// io twice per second
-			int curr_dur_half_sec = (int)((get_master_clock(is) * 2) + 0.5);
-			if (last_half_second != curr_dur_half_sec) {
-				fflush(stdout);
+			// io 4 times per second
+			int curr_dur_q_sec = (int)((get_master_clock(is) * 4) + 0.5);
+			
+			if (last_q_second != curr_dur_q_sec) {
+				last_q_second = curr_dur_q_sec;
 				
-				last_half_second = curr_dur_half_sec;
+				if (stdin_is_open == 0) {
+					stdin_is_open = 1;
+					
+					char str[16];
+					gets( str );
+					
+					switch(str[0]) {
+					   case 't'  :
+						  fprintf(stderr, "ths:%d\n", curr_dur_q_sec);
+						  break;
+					   case 'e'  :
+						  printf("you wrote: %s", str);
+						  break;
+					}
+
+					stdin_is_open = 0;
+				}
 				
-				// log current play time (half seconds) to STDERR
-				fprintf(stderr, "ths:%d\n", curr_dur_half_sec);
-				
-				// echo for dbg purposes
-				char str[16];
-				gets( str );
-				// echo to STDOUT
-				printf("you wrote: %s", str);
 			}
+			
+			fflush(stdout);
             last_time = cur_time;
         }
     }
@@ -3724,7 +3736,7 @@ int main(int argc, char **argv)
 
     SDL_EventState(SDL_SYSWMEVENT, SDL_IGNORE);
     SDL_EventState(SDL_USEREVENT, SDL_IGNORE);
-
+	
     av_init_packet(&flush_pkt);
     flush_pkt.data = (uint8_t *)&flush_pkt;
 
