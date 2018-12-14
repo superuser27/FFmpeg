@@ -1716,18 +1716,19 @@ display:
 			// io twice per second
 			int curr_dur_half_sec = (int)((get_master_clock(is) * 2) + 0.5);
 			if (last_half_second != curr_dur_half_sec) {
+				fflush(stdout);
+				
 				last_half_second = curr_dur_half_sec;
 				
-				// log current play time (half seconds) to stderr
-				av_log(NULL, AV_LOG_INFO, "ths:%d\n", curr_dur_half_sec);
-				/*
+				// log current play time (half seconds) to STDERR
+				fprintf(stderr, "ths:%d\n", curr_dur_half_sec);
+				
 				// echo for dbg purposes
 				char str[16];
 				gets( str );
-				puts( str );*/
+				// echo to STDOUT
+				printf("you wrote: %s", str);
 			}
-			
-            fflush(stdout);
             last_time = cur_time;
         }
     }
