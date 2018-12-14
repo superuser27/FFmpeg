@@ -60,8 +60,8 @@
 
 #include <assert.h>
 
-const char program_name[] = "FFPLAY MOD BY NECROMANCER";
-const int mod_birth_year = 2018;
+const char program_name[] = "ffplay";
+const int program_birth_year = 2003;
 
 int last_half_second = 0;
 
@@ -1716,10 +1716,10 @@ display:
 			// io twice per second
 			int curr_dur_half_sec = get_master_clock(is) / 500000LL;
 			if (last_half_second != curr_dur_half_sec) {
-				last_half_second = curr_dur_seconds;
+				last_half_second = curr_dur_half_sec;
 				
 				// log current play time to stderr
-				av_log(NULL, AV_LOG_INFO, "t:%d\n", curr_dur_seconds/2);
+				av_log(NULL, AV_LOG_INFO, "t:%d\n", curr_dur_half_sec/2);
 				
 				// echo for dbg purposes
 				char str[16];
