@@ -1718,13 +1718,13 @@ display:
 			if (last_half_second != curr_dur_half_sec) {
 				last_half_second = curr_dur_half_sec;
 				
-				// log current play time to stderr
-				av_log(NULL, AV_LOG_INFO, "t:%d\n", curr_dur_half_sec/2);
-				
+				// log current play time (half seconds) to stderr
+				av_log(NULL, AV_LOG_INFO, "ths:%d\n", curr_dur_half_sec);
+				/*
 				// echo for dbg purposes
 				char str[16];
 				gets( str );
-				puts( str );
+				puts( str );*/
 			}
 			
             fflush(stdout);
