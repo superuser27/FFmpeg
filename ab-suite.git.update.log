@@ -1,0 +1,24 @@
+CFLAGS: -mthreads -mtune=generic -O2 -pipe
+LDFLAGS: -pipe -static-libgcc -static-libstdc++
+vcs_update origin/HEAD
++ [[ git = svn ]]
++ [[ git = hg ]]
++ [[ git = git ]]
++ local unshallow
++ [[ -f .git/shallow ]]
++ git fetch -t origin
+++ vcs_getlatesttag origin/HEAD
+++ local ref=origin/HEAD
+++ [[ -n git ]]
+++ [[ git != git ]]
+++ local tag
+++ [[ origin/HEAD = \L\A\T\E\S\T ]]
+++ [[ origin/HEAD = \G\R\E\A\T\E\S\T ]]
+++ [[ origin/HEAD != \o\r\i\g\i\n\/\H\E\A\D ]]
+++ echo origin/HEAD
++ ref=origin/HEAD
++ git reset --hard origin/HEAD
+HEAD is now at 9487b86b59 remove stderr io, use stdout only
+++ git rev-parse HEAD
++ newHead=9487b86b59f8067bf4069519572f261ba321a518
++ set +x

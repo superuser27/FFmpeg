@@ -1727,12 +1727,25 @@ display:
 					gets( str );
 					
 					switch(str[0]) {
-					   case 't'  :
-						  printf("ths:%d\n", curr_dur_q_sec);
-						  break;
-					   case 'e'  :
-						  printf("you wrote: %s", str);
-						  break;
+						case 't'  :
+							printf("ths:%d\n", curr_dur_q_sec);
+							break;
+						case 'p'  :
+							toggle_pause(is);
+							break;
+						case 'm'  :
+							toggle_mute(is);
+							break;
+						case 'v'  :
+							if (str[1] == '+')
+								update_volume(is, 1, SDL_VOLUME_STEP);
+							else if (str[1] == '-')
+								update_volume(is, -1, SDL_VOLUME_STEP);
+							// TODO: else if actual volume value is being passed
+							break;
+						case 'e'  :
+							printf("you wrote: %s", str);
+							break;
 					}
 
 					stdin_is_open = 0;
